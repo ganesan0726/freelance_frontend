@@ -73,8 +73,7 @@ export default function RadioUi({
           {options?.map((option, index) => (
             <FormControlLabel
               sx={{
-                padding: "2px",
-                width: "100px",
+                width: "107px",
                 height: "40px",
                 margin: "0 5px",
                 borderRadius: "20px", // Add border radius to FormControlLabel

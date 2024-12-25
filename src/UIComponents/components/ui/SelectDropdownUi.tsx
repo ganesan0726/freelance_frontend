@@ -6,9 +6,7 @@ import {
   FormControl,
   FormHelperText,
   CircularProgress,
-  InputAdornment,
 } from "@mui/material";
-import SearchIcon from "@mui/icons-material/Search";
 
 interface ValueProps {
   value: string | number;
@@ -46,7 +44,6 @@ export default function SelectDropdownUi({
   onChange,
   disabled,
   loading = false,
-  defaultValue,
 }: SelectDropdownProps) {
   return (
     <FormControl fullWidth error={error} disabled={disabled}>
@@ -56,7 +53,7 @@ export default function SelectDropdownUi({
         options={options}
         loading={loading}
         value={value || null}
-        onChange={(event, newValue) => {
+        onChange={(_, newValue) => {
           onChange(newValue);
         }}
         isOptionEqualToValue={(option, value) => option.value === value.value}
@@ -65,12 +62,16 @@ export default function SelectDropdownUi({
           width: width, // Apply reduced width size
           "& .MuiOutlinedInput-root": {
             height: size === "medium" ? "45px" : "38px",
-            fontSize: size === "medium" ? "15px" : "14px",
+            fontSize: size === "medium" ? "12px" : "10px",
             padding: size === "medium" ? "10px" : "8px",
             borderRadius: "20px", // Add border radius
           },
           "& .MuiAutocomplete-input": {
             padding: size === "medium" ? "10px" : "8px",
+          },
+          "& .MuiFormLabel-root": {
+            lineHeight: "15px",
+            fontSize: size === "medium" ? "12px" : "12px", // Larger font size for medium
           },
         }}
         renderInput={(params) => (
@@ -81,11 +82,6 @@ export default function SelectDropdownUi({
             label={labelText}
             InputProps={{
               ...params.InputProps,
-              startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
-                </InputAdornment>
-              ),
               endAdornment: (
                 <>
                   {loading ? (
@@ -102,7 +98,11 @@ export default function SelectDropdownUi({
             {children}
           </Paper>
         )}
-        renderOption={(props, option) => <li {...props}>{option.label}</li>}
+        renderOption={(props, option) => (
+          <li {...props} key={option.value}>
+            {option.label}
+          </li>
+        )}
       />
       {helperText && (
         <FormHelperText id="component-helper-text">{helperText}</FormHelperText>

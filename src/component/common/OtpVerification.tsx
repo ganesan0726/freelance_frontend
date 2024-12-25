@@ -81,7 +81,6 @@ const OTPVerification = () => {
               sx={{
                 width: "40%",
                 height: "36px",
-                marginTop: 3,
                 fontSize: "12px",
                 borderRadius: "20px",
                 border: "1px solid black", // Black border
@@ -170,7 +169,7 @@ const OTPVerification = () => {
               disabled
               sx={{
                 width: "40%",
-                marginTop: 3,
+                // marginTop: 3,
                 fontSize: "12px",
                 borderRadius: "20px",
                 borderColor: "green", // Green border

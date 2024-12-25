@@ -5,6 +5,7 @@ import {
   Card,
   CardContent,
   IconButton,
+  Button,
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
@@ -17,10 +18,14 @@ import { VisibilityOff, VisibilityOutlined } from "@mui/icons-material";
 import SelectDropdownUi from "../../UIComponents/components/ui/SelectDropdownUi";
 import { stateList } from "../../data/state-list";
 import { districts_list } from "../../data/district-list";
+import { colleges_list } from "../../data/college-list";
+import FileUpload from "../../UIComponents/components/ui/FileUpload";
+import NextArrow from "../../assets/NextArrow.png";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
@@ -35,6 +40,26 @@ const CandidateRegistrationForm = () => {
     studying_course: Yup.string(),
     state: Yup.string().required("state is required"),
     district: Yup.string().required("district is required"),
+    institutionType: Yup.string().required("institutionType is required"),
+    institutionName: Yup.string().required("institutionName is required"),
+    // resume: Yup.mixed()
+    //   .required("Resume is required")
+    //   .test(
+    //     "fileType",
+    //     "Only .docx and .pdf files are allowed",
+    //     (value) =>
+    //       !value || // Allow no file for optional fields
+    //       (value &&
+    //         [
+    //           "application/pdf",
+    //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
+    //         ].includes((value as File).type)),
+    //   )
+    //   .test(
+    //     "fileSize",
+    //     "File size must be less than 5MB",
+    //     (value) => !value || (value && (value as File).size <= 5 * 1024 * 1024), // 5MB
+    //   ),
   });
 
   // Initial values for the form
@@ -48,6 +73,9 @@ const CandidateRegistrationForm = () => {
     studying_course: "",
     state: "",
     district: "",
+    institutionType: "",
+    institutionName: "",
+    resume: null,
   };
 
   // Gender options
@@ -62,16 +90,43 @@ const CandidateRegistrationForm = () => {
     { value: "no", label: "No" },
   ];
 
+  const institutionTypeOptions = [
+    { label: "University", value: "university" },
+    { label: "College", value: "college" },
+    { label: "Institution", value: "institution" },
+  ];
+
+  interface FormValues {
+    firstname: string;
+    lastname: string;
+    email: string;
+    phonenumber: string;
+    gender: string;
+    password: string;
+    studying_course: string;
+    state: string;
+    district: string;
+    institutionType: string;
+    institutionName: string;
+    resume: File | null;
+  }
+
+  const handleSubmit = (
+    values: FormValues,
+    { resetForm }: { resetForm: () => void },
+  ) => {
+    console.log("Form submitted with values:", values);
+    resetForm();
+  };
+
   return (
-    <Container maxWidth="md">
-      <Card sx={{ backgroundColor: "f0f0f0", padding: 3 }}>
+    <Container maxWidth="lg">
+      <Card sx={{ backgroundColor: "f0f0f0", padding: 3, margin: 2 }}>
         <CardContent>
           <Formik
             initialValues={initialValues}
             validationSchema={validationSchema}
-            onSubmit={(values) => {
-              console.log("Form submitted with values:", values);
-            }}
+            onSubmit={handleSubmit}
           >
             {({
               errors,
@@ -268,6 +323,7 @@ const CandidateRegistrationForm = () => {
                       name="password"
                       type={passwordVisible ? "text" : "password"}
                       value={values.password}
+                      onChange={handleChange}
                       onBlur={handleBlur}
                       error={touched.password && Boolean(errors.password)}
                       helperText={touched.password ? errors.password : ""}
@@ -281,7 +337,7 @@ const CandidateRegistrationForm = () => {
                     spacing={2}
                     sx={{
                       border: "1px solid #ccc",
-                      // padding: 1,
+                      padding: "2px",
                       borderRadius: "20px",
                       marginLeft: 1,
                       marginTop: 2,
@@ -296,6 +352,7 @@ const CandidateRegistrationForm = () => {
                           fontSize: "13px",
                           marginLeft: "12px",
                           fontWeight: "bold",
+                          marginTop: 2,
                         }}
                       >
                         Are you studing any course?
@@ -345,11 +402,11 @@ const CandidateRegistrationForm = () => {
                         onBlur={() => setFieldTouched("state", true)}
                         options={stateList.map((state) => ({
                           label: state.state_name,
-                          value: state.id,
+                          value: state.state_name,
                         }))}
                         error={touched.state && Boolean(errors.state)}
                         helperText={touched.state ? errors.state : ""}
-                        labelText="state"
+                        labelText="Select State"
                         value={
                           values.state
                             ? {
@@ -385,11 +442,11 @@ const CandidateRegistrationForm = () => {
                         onBlur={() => setFieldTouched("district", true)}
                         options={districts_list.map((district) => ({
                           label: district.district_name,
-                          value: district.id,
+                          value: district.district_name,
                         }))}
                         error={touched.district && Boolean(errors.district)}
                         helperText={touched.district ? errors.district : ""}
-                        labelText="district"
+                        labelText="Select District"
                         value={
                           values.district
                             ? {
@@ -407,6 +464,127 @@ const CandidateRegistrationForm = () => {
                         size="small"
                       />
                     </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          marginBottom: 1,
+                          fontSize: "13px",
+                          marginLeft: "12px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Choose Institution Type
+                      </Typography>
+                      <RadioUi
+                        options={institutionTypeOptions}
+                        value={values.institutionType}
+                        onChange={(e) =>
+                          setFieldValue("institutionType", e.target.value)
+                        }
+                        errorMsg={
+                          touched.institutionType && errors.institutionType
+                        }
+                      />
+                    </Grid>
+                    <Grid item xs={6}>
+                      <Typography
+                        variant="h6"
+                        sx={{
+                          marginBottom: 1,
+                          fontSize: "13px",
+                          marginLeft: "12px",
+                          fontWeight: "bold",
+                        }}
+                      >
+                        Institution Name
+                      </Typography>
+                      <SelectDropdownUi
+                        onChange={(e) => {
+                          setFieldValue("institutionName", e?.value);
+                        }}
+                        onBlur={() => setFieldTouched("institutionName", true)}
+                        options={colleges_list.map((college) => ({
+                          label: college.name1,
+                          value: college.name1,
+                        }))}
+                        error={
+                          touched.institutionName &&
+                          Boolean(errors.institutionName)
+                        }
+                        helperText={
+                          touched.institutionName ? errors.institutionName : ""
+                        }
+                        labelText="Select Institute Name"
+                        value={
+                          values.institutionName
+                            ? {
+                                value: values.institutionName,
+                                label:
+                                  colleges_list.find(
+                                    (college) =>
+                                      college.name1 === values.institutionName,
+                                  )?.name1 || "",
+                              }
+                            : null
+                        }
+                        variant="outlined"
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid item xs={12} sx={{ p: 2 }}>
+                      <FileUpload
+                        label="Resume"
+                        onFileChange={(files) => {
+                          setFieldValue("resume", files);
+                          setUploadedFiles(files);
+                        }}
+                      />
+                    </Grid>
+                  </Grid>
+                  <Grid
+                    item
+                    xs={12}
+                    container
+                    justifyContent="center"
+                    alignItems="center"
+                  >
+                    <Button
+                      variant="contained"
+                      color="primary"
+                      type="submit"
+                      disabled={isSubmitting}
+                      sx={{
+                        marginTop: 2,
+                        borderRadius: "30px",
+                        display: "flex",
+                        alignItems: "space-between",
+                        justifyContent: "center",
+                        width: "110px",
+                        height: "50px",
+                        padding: "16px 16px",
+                        gap: "5px",
+                        backgroundColor: "#FFFFFF",
+                        fontSize: "16px",
+                        fontWeight: "bold",
+                        color: "black",
+                        textTransform: "none",
+                        "&:hover": {
+                          backgroundColor: "#f0f0f0",
+                        },
+                      }}
+                    >
+                      Next
+                      <img
+                        src={NextArrow}
+                        alt="Next Arrow"
+                        style={{
+                          width: "18px",
+                          height: "18px",
+                          color: "black",
+                        }}
+                      />
+                    </Button>
                   </Grid>
                 </Grid>
               </Form>
