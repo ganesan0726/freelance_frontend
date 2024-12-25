@@ -7,6 +7,7 @@ import {
   FormHelperText,
   CircularProgress,
   InputAdornment,
+  Typography,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 
@@ -30,6 +31,7 @@ interface SelectDropdownProps {
   size?: "small" | "medium";
   loading?: boolean;
   defaultValue?: ValueProps | null;
+  topLabel?: string;
 }
 
 export default function SelectDropdownUi({
@@ -47,9 +49,21 @@ export default function SelectDropdownUi({
   disabled,
   loading = false,
   defaultValue,
+  topLabel,
 }: SelectDropdownProps) {
   return (
     <FormControl fullWidth error={error} disabled={disabled}>
+      <Typography
+        variant="h6"
+        sx={{
+          marginBottom: 1,
+          fontSize: "13px",
+          marginLeft: "12px",
+          fontWeight: "bold",
+        }}
+      >
+        {topLabel}
+      </Typography>
       <Autocomplete
         size={size}
         disablePortal
@@ -67,7 +81,7 @@ export default function SelectDropdownUi({
             height: size === "medium" ? "45px" : "38px",
             fontSize: size === "medium" ? "15px" : "14px",
             padding: size === "medium" ? "10px" : "8px",
-            borderRadius: "20px", // Add border radius
+            borderRadius: "15px", // Add border radius
           },
           "& .MuiAutocomplete-input": {
             padding: size === "medium" ? "10px" : "8px",
@@ -82,8 +96,8 @@ export default function SelectDropdownUi({
             InputProps={{
               ...params.InputProps,
               startAdornment: (
-                <InputAdornment position="start">
-                  <SearchIcon />
+                <InputAdornment position="start" sx={{ marginLeft: "5px" }}>
+                  <SearchIcon sx={{ padding: "2px" }} />
                 </InputAdornment>
               ),
               endAdornment: (

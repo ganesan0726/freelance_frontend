@@ -1,6 +1,6 @@
 import React from "react";
 import { MuiTelInput } from "mui-tel-input";
-import { FormHelperText, FormControl, TextFieldProps } from "@mui/material";
+import { FormHelperText, FormControl, TextFieldProps, Typography } from "@mui/material";
 
 interface PhoneInputProps {
   value: string;
@@ -15,6 +15,7 @@ interface PhoneInputProps {
   label?: string;
   width?: string;
   size?: "small" | "medium";
+  topLabel?: string;
 }
 
 const PhoneInputUi: React.FC<PhoneInputProps> = ({
@@ -30,17 +31,30 @@ const PhoneInputUi: React.FC<PhoneInputProps> = ({
   required = false,
   sx,
   variant = "outlined", // Default to 'outlined'
+  topLabel,
+
 }) => {
   return (
     <FormControl error={error} required={required} fullWidth sx={sx}>
+       <Typography
+        variant="h6"
+        sx={{
+          marginBottom: 1,
+          fontSize: "13px",
+          marginLeft: "12px",
+          fontWeight: "bold",
+        }}
+      >
+        {topLabel}
+      </Typography>
       <MuiTelInput
         sx={{
-          width: `${width}`,
-          borderRadius: "20px !important",
+          width: width || "100%",
+          borderRadius: "15px !important",
           "& .MuiOutlinedInput-root": {
             height: size === "medium" ? "" : "38px",
             ...sx,
-            borderRadius: "20px !important",
+            borderRadius: "15px !important",
             overflow: "hidden",
             borderColor: `action.active`,
             transition: `muiTheme.transitions.create(["border-color", "box-shadow"])`,

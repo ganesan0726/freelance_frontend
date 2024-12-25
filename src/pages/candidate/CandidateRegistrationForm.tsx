@@ -7,9 +7,7 @@ import {
   IconButton,
 } from "@mui/material";
 import { Formik, Form } from "formik";
-import * as Yup from "yup";
 import TextFieldUi from "../../UIComponents/components/ui/TextField"; // Assuming TextFieldUi is a custom component
-import OTPVerification from "../../component/common/OtpVerification";
 import PhoneNumberField from "../../UIComponents/components/ui/PhoneNumberField";
 import RadioUi from "../../UIComponents/components/ui/RadioGroup";
 import { useState } from "react";
@@ -17,54 +15,48 @@ import { VisibilityOff, VisibilityOutlined } from "@mui/icons-material";
 import SelectDropdownUi from "../../UIComponents/components/ui/SelectDropdownUi";
 import { stateList } from "../../data/state-list";
 import { districts_list } from "../../data/district-list";
+import { Box } from "@mui/system";
+import OtpInput from "../../component/common/OtpVerification";
+import ButtonUi from "../../UIComponents/components/ui/Button";
+import { courseOptions, genderOptions, initialValues, validationSchema } from "../../data/candidateData";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
+  const [otp, setOtp] = useState<string>(""); // Entered OTP
+  const [sentOtp, setSentOtp] = useState<string | null>(null); // Sent OTP
+  const [isVerified, setIsVerified] = useState<boolean>(false); // Verification status
 
-  // Validation schema using Yup
-  const validationSchema = Yup.object({
-    firstname: Yup.string().required("First name is required"),
-    lastname: Yup.string().required("Last name is required"),
-    email: Yup.string()
-      .email("Invalid email format")
-      .required("Email is required"),
-    phonenumber: Yup.string().required("Phone number is required"),
-    gender: Yup.string().required("Gender is required"),
-    password: Yup.string().max(255).required("Password is required"),
-    studying_course: Yup.string(),
-    state: Yup.string().required("state is required"),
-    district: Yup.string().required("district is required"),
-  });
-
-  // Initial values for the form
-  const initialValues = {
-    firstname: "",
-    lastname: "",
-    email: "",
-    phonenumber: "",
-    gender: "",
-    password: "",
-    studying_course: "",
-    state: "",
-    district: "",
+  const handleSendOtp = () => {
+    const generatedOtp = "1234"; // Static OTP for demonstration
+    setSentOtp(generatedOtp);
+    setIsVerified(false);
+    setOtp(""); // Clear OTP input
+    console.log("Generated OTP:", generatedOtp); // Simulate OTP sent
   };
 
-  // Gender options
-  const genderOptions = [
-    { value: "male", label: "Male" },
-    { value: "female", label: "Female" },
-    { value: "others", label: "Others" },
-  ];
-  // Course Boolean
-  const courseOptions = [
-    { value: "yes", label: "Yes" },
-    { value: "no", label: "No" },
-  ];
+  const handleOtpChange = (enteredOtp: string) => {
+    setOtp(enteredOtp);
+  };
+
+  const handleOtpComplete = (completeOtp: string) => {
+    setOtp(completeOtp);
+  };
+
+  const handleSubmit = () => {
+    if (otp === sentOtp) {
+      setIsVerified(true); // Mark as verified
+    } else {
+      alert("Invalid OTP! Please try again.");
+    }
+  };
+
+  // Validation schema using Yup
+
 
   return (
     <Container maxWidth="md">
-      <Card sx={{ backgroundColor: "f0f0f0", padding: 3 }}>
+      <Card sx={{ backgroundColor: "f0f0f0", padding: 3, marginTop: "20px" }}>
         <CardContent>
           <Formik
             initialValues={initialValues}
@@ -86,39 +78,20 @@ const CandidateRegistrationForm = () => {
               <Form noValidate>
                 <Grid
                   container
-                  rowSpacing={2}
-                  columnSpacing={2.5}
+                  rowSpacing={0}
+                  columnSpacing={2}
                   justifyContent="center"
                   alignItems="center"
                 >
                   <Grid item xs={12}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        textAlign: "center",
-                        fontWeight: "bold",
-                        fontSize: "20px",
-                      }}
-                    >
-                      CANDIDATE REGISTRATION
-                    </Typography>
+                    <Typography variant="h2" sx={{ textAlign: "center", fontWeight: "bold", fontSize: "20px", marginBottom: "40px" }} > CANDIDATE REGISTRATION </Typography>
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      First Name
-                    </Typography>
+
                     <TextFieldUi
+                      topLabel="First Name"
+                      placeholder="Enter First Name"
                       type="text"
-                      label="Enter first name"
                       name="firstname"
                       value={values.firstname}
                       onChange={handleChange}
@@ -127,24 +100,13 @@ const CandidateRegistrationForm = () => {
                       helperText={touched.firstname ? errors.firstname : ""}
                       fullWidth
                       size="small"
-                      sx={{ marginBottom: 2 }}
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Last Name
-                    </Typography>
                     <TextFieldUi
+                      topLabel="Last Name"
                       type="text"
-                      label="Enter the last name"
+                      placeholder="Enter the last name"
                       name="lastname"
                       value={values.lastname}
                       onChange={handleChange}
@@ -153,24 +115,13 @@ const CandidateRegistrationForm = () => {
                       helperText={touched.lastname ? errors.lastname : ""}
                       fullWidth
                       size="small"
-                      sx={{ marginBottom: 2 }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Personal Email ID
-                    </Typography>
+                  <Grid mt={2} item xs={6}>
                     <TextFieldUi
+                      topLabel="Personal Email ID"
                       type="email"
-                      label="Enter Email ID"
+                      placeholder="Enter Email ID"
                       name="email"
                       value={values.email}
                       onChange={handleChange}
@@ -179,101 +130,110 @@ const CandidateRegistrationForm = () => {
                       helperText={touched.email ? errors.email : ""}
                       fullWidth
                       size="small"
-                      sx={{ marginBottom: 2 }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <OTPVerification />
+                  <Grid item xs={6} sx={{ textAlign: "right" }}>
+                    <Box mt={5} sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
+                      {isVerified ? (
+                        // Show "Verified" message
+                        <Typography variant="h6" color="success.main">
+                          Verified
+                        </Typography>
+                      ) : (
+                        <>
+                          {/* Send/Submit Button */}
+                          <ButtonUi
+                            type="button"
+                            label={sentOtp ? "Submit" : "Send"} // Show "Submit" if OTP has been sent
+                            variant="outlined"
+                            sx={{ height: "35px" }}
+                            onClick={sentOtp ? handleSubmit : handleSendOtp} // Call handleSubmit if OTP has been sent
+                          />
+                          {/* OTP Input */}
+                          {sentOtp && (
+                            <OtpInput
+                              numDigits={4}
+                              onChange={handleOtpChange}
+                              onComplete={handleOtpComplete}
+                              inputStyle={{
+                                borderRadius: "4px",
+                              }}
+                              gap={3}
+                            />
+                          )}
+                        </>
+                      )}
+                    </Box>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Mobile Number
-                    </Typography>
+
+                  <Grid mt={2} item xs={6}>
                     <PhoneNumberField
                       name="phonenumber"
-                      label="Phone Number"
+                      topLabel="Phone Number"
                       value={values.phonenumber}
                       onChange={(value) => setFieldValue("phonenumber", value)}
                       onBlur={() => setFieldTouched("phonenumber", true)}
                       error={touched.phonenumber && Boolean(errors.phonenumber)}
                       helperText={touched.phonenumber ? errors.phonenumber : ""}
                       size="small"
-                      width="80%"
-                      sx={{ marginBottom: 2 }}
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <OTPVerification />
+                  <Grid item xs={6} sx={{ textAlign: "right" }}>
+                    <Box mt={5} sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
+                      {isVerified ? (
+                        // Show "Verified" message
+                        <Typography variant="h6" color="success.main">
+                          Verified
+                        </Typography>
+                      ) : (
+                        <>
+                          {/* Send/Submit Button */}
+                          <ButtonUi
+                            type="button"
+                            label={sentOtp ? "Submit" : "Send"} // Show "Submit" if OTP has been sent
+                            variant="outlined"
+                            sx={{ height: "35px" }}
+                            onClick={sentOtp ? handleSubmit : handleSendOtp} // Call handleSubmit if OTP has been sent
+                          />
+                          {/* OTP Input */}
+                          {sentOtp && (
+                            <OtpInput
+                              numDigits={4}
+                              onChange={handleOtpChange}
+                              onComplete={handleOtpComplete}
+                              inputStyle={{
+                                borderRadius: "4px",
+                              }}
+                              gap={3}
+                            />
+                          )}
+                        </>
+                      )}
+                    </Box>
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Gender
-                    </Typography>
+
+                  <Grid mt={2} item xs={6}>
                     <RadioUi
+                      topLabel="Gender"
                       options={genderOptions}
                       value={values.gender}
                       onChange={(e) => setFieldValue("gender", e.target.value)}
                       errorMsg={touched.gender && errors.gender}
                     />
                   </Grid>
-                  <Grid item xs={6}>
-                    <Typography
-                      variant="h6"
-                      sx={{
-                        marginBottom: 1,
-                        fontSize: "13px",
-                        marginLeft: "12px",
-                        fontWeight: "bold",
-                      }}
-                    >
-                      Password
-                    </Typography>
+                  <Grid mt={2} item xs={6}>
                     <TextFieldUi
-                      endAdornment={
-                        passwordVisible ? (
-                          <IconButton
-                            onClick={() => setPasswordVisible(!passwordVisible)}
-                          >
-                            {" "}
-                            {/* Toggle state */}
-                            <VisibilityOutlined />
-                          </IconButton>
-                        ) : (
-                          <IconButton
-                            onClick={() => setPasswordVisible(!passwordVisible)}
-                          >
-                            {" "}
-                            {/* Toggle state */}
-                            <VisibilityOff />
-                          </IconButton>
-                        )
-                      }
-                      label="Enter password"
-                      name="password"
-                      type={passwordVisible ? "text" : "password"}
-                      value={values.password}
+                      topLabel="Personal Email ID"
+                      type="password"
+                      placeholder="Enter Email ID"
+                      name="email"
+                      value={values.email}
+                      onChange={handleChange}
                       onBlur={handleBlur}
-                      error={touched.password && Boolean(errors.password)}
-                      helperText={touched.password ? errors.password : ""}
+                      error={touched.email && Boolean(errors.email)}
+                      helperText={touched.email ? errors.email : ""}
                       fullWidth
                       size="small"
-                      sx={{ marginBottom: 2 }}
                     />
                   </Grid>
                   <Grid
@@ -284,23 +244,13 @@ const CandidateRegistrationForm = () => {
                       // padding: 1,
                       borderRadius: "20px",
                       marginLeft: 1,
-                      marginTop: 2,
+                      marginTop: 4,
                       paddingBottom: 2,
                     }}
                   >
                     <Grid item xs={8}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          marginBottom: 1,
-                          fontSize: "13px",
-                          marginLeft: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Are you studing any course?
-                      </Typography>
                       <RadioUi
+                        topLabel="Are you Studying any course"
                         options={courseOptions}
                         value={values.studying_course}
                         onChange={(e) =>
@@ -327,18 +277,8 @@ const CandidateRegistrationForm = () => {
                       </Typography>
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          marginBottom: 1,
-                          fontSize: "13px",
-                          marginLeft: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Select State
-                      </Typography>
                       <SelectDropdownUi
+                        topLabel="Select State"
                         onChange={(e) => {
                           setFieldValue("state", e?.value);
                         }}
@@ -349,17 +289,16 @@ const CandidateRegistrationForm = () => {
                         }))}
                         error={touched.state && Boolean(errors.state)}
                         helperText={touched.state ? errors.state : ""}
-                        labelText="state"
                         value={
                           values.state
                             ? {
-                                value: values.state,
-                                label:
-                                  stateList.find(
-                                    (state) =>
-                                      state.state_name === values.state,
-                                  )?.state_name || "",
-                              }
+                              value: values.state,
+                              label:
+                                stateList.find(
+                                  (state) =>
+                                    state.state_name === values.state,
+                                )?.state_name || "",
+                            }
                             : null
                         }
                         variant="outlined"
@@ -367,17 +306,6 @@ const CandidateRegistrationForm = () => {
                       />
                     </Grid>
                     <Grid item xs={6}>
-                      <Typography
-                        variant="h6"
-                        sx={{
-                          marginBottom: 1,
-                          fontSize: "13px",
-                          marginLeft: "12px",
-                          fontWeight: "bold",
-                        }}
-                      >
-                        Select District
-                      </Typography>
                       <SelectDropdownUi
                         onChange={(e) => {
                           setFieldValue("district", e?.value);
@@ -389,18 +317,57 @@ const CandidateRegistrationForm = () => {
                         }))}
                         error={touched.district && Boolean(errors.district)}
                         helperText={touched.district ? errors.district : ""}
-                        labelText="district"
+                        topLabel="Select District"
                         value={
                           values.district
                             ? {
-                                value: values.district,
-                                label:
-                                  districts_list.find(
-                                    (district) =>
-                                      district.district_name ===
-                                      values.district,
-                                  )?.district_name || "",
-                              }
+                              value: values.district,
+                              label:
+                                districts_list.find(
+                                  (district) =>
+                                    district.district_name ===
+                                    values.district,
+                                )?.district_name || "",
+                            }
+                            : null
+                        }
+                        variant="outlined"
+                        size="small"
+                      />
+                    </Grid>
+                    <Grid mt={2} item xs={6}>
+                    <RadioUi
+                      topLabel="Choose Institute Type"
+                      options={genderOptions}
+                      value={values.gender}
+                      onChange={(e) => setFieldValue("gender", e.target.value)}
+                      errorMsg={touched.gender && errors.gender}
+                    />
+                    </Grid>
+                    <Grid mt={2} item xs={6}>
+                      <SelectDropdownUi
+                        onChange={(e) => {
+                          setFieldValue("district", e?.value);
+                        }}
+                        onBlur={() => setFieldTouched("district", true)}
+                        options={districts_list.map((district) => ({
+                          label: district.district_name,
+                          value: district.id,
+                        }))}
+                        error={touched.district && Boolean(errors.district)}
+                        helperText={touched.district ? errors.district : ""}
+                        topLabel="Institute Name"
+                        value={
+                          values.district
+                            ? {
+                              value: values.district,
+                              label:
+                                districts_list.find(
+                                  (district) =>
+                                    district.district_name ===
+                                    values.district,
+                                )?.district_name || "",
+                            }
                             : null
                         }
                         variant="outlined"

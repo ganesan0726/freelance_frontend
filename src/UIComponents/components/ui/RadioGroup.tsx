@@ -21,6 +21,7 @@ interface RadioFormProps {
   disabled?: boolean;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
+  topLabel? : string;
 }
 export default function RadioUi({
   errorMsg,
@@ -31,16 +32,22 @@ export default function RadioUi({
   label,
   required,
   disabled,
+  topLabel
 }: RadioFormProps) {
   return (
     <>
-      <FormControl
-        sx={{
-          flexDirection: "row",
-          justifyContent: "space-between",
-          gap: "10px",
-        }}
-      >
+      <FormControl>
+         <Typography
+                variant="h6"
+                sx={{
+                  marginBottom: 1,
+                  fontSize: "13px",
+                  marginLeft: "12px",
+                  fontWeight: "bold",
+                }}
+              >
+                {topLabel}
+              </Typography>
         {label ? (
           <FormLabel
             sx={{

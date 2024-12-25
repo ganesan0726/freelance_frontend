@@ -4,6 +4,7 @@ import {
   InputAdornment,
   TextField,
   FormHelperText,
+  Typography,
 } from "@mui/material";
 import Visibility from "@mui/icons-material/Visibility";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
@@ -20,25 +21,27 @@ interface TextFieldProps {
   helperText?: any;
   name?: string;
   type:
-    | "file"
-    | "text"
-    | "password"
-    | "number"
-    | "email"
-    | "tel"
-    | "url"
-    | "search"
-    | "date"
-    | "time"
-    | "datetime-local"
-    | "month"
-    | "week"
-    | "color";
+  | "file"
+  | "text"
+  | "password"
+  | "number"
+  | "email"
+  | "tel"
+  | "url"
+  | "search"
+  | "date"
+  | "time"
+  | "datetime-local"
+  | "month"
+  | "week"
+  | "color";
   fullWidth?: boolean;
   required?: boolean;
   width?: string;
   sx?: any;
   size?: "small" | "medium";
+  placeholder?: string;
+  topLabel?: string;
 }
 
 const TextFieldUi = ({
@@ -56,8 +59,10 @@ const TextFieldUi = ({
   helperText,
   name,
   type,
+  placeholder,
   fullWidth,
   size = "medium", // Default to medium
+  topLabel,
 }: TextFieldProps) => {
   // State to toggle password visibility
   const [showPassword, setShowPassword] = useState(false);
@@ -75,7 +80,19 @@ const TextFieldUi = ({
         marginBottom: 0, // Reduced margin when error is present
       }}
     >
+      <Typography
+        variant="h6"
+        sx={{
+          marginBottom: 1,
+          fontSize: "13px",
+          marginLeft: "12px",
+          fontWeight: "bold",
+        }}
+      >
+        {topLabel}
+      </Typography>
       <TextField
+        placeholder={placeholder}
         required={required}
         variant="outlined"
         size={size}
@@ -109,12 +126,12 @@ const TextFieldUi = ({
             ),
         }}
         sx={{
-          width: width ? width : "80%", // Ensure width is applied properly
-          borderRadius: "20px !important",
+          width: width ? width : "100%", // Ensure width is applied properly
+          borderRadius: "10px !important",
           "& .MuiOutlinedInput-root": {
             height: size === "medium" ? "45px" : "38px", // Default height for medium size
             ...sx,
-            borderRadius: "20px !important",
+            borderRadius: "15px !important",
             borderColor: "action.active",
             transition: `muiTheme.transitions.create(["border-color", "box-shadow"])`,
             "&:hover": {
@@ -122,6 +139,10 @@ const TextFieldUi = ({
             },
             "&.Mui-error": {
               borderColor: "transparent", // Removing the outline color for error
+            },
+            "& .MuiInputBase-input::placeholder": {
+              fontSize: size === "medium" ? "14px" : "12px", // Customize placeholder font size
+              color: "grey", // Customize placeholder color if needed
             },
           },
           "& .MuiFormLabel-root": {
