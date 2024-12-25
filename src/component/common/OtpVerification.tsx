@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Button, Typography, Box } from "@mui/material";
 
-const OTPVerification = () => {
+const OTPVerification: React.FC<any> = ({ snetOtp }) => {
+
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(10); // 10 seconds timer
   const [otpSent, setOtpSent] = useState(false);
@@ -10,9 +11,10 @@ const OTPVerification = () => {
   // Handle OTP change in the text fields
   const handleOtpChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number,
+    index: number
   ) => {
     const value = e.target.value;
+
     if (/^\d*$/.test(value) && value.length <= 1) {
       const newOtp = [...otp];
       newOtp[index] = value;
@@ -44,6 +46,8 @@ const OTPVerification = () => {
 
   // Send OTP button click handler
   const handleSendOtp = () => {
+    console.log("handleSendOtp >>>>> >> ", otp);
+    snetOtp()
     setOtpSent(true);
     setTimer(10);
     setOtpVerified(false); // Reset OTP verification state
@@ -51,7 +55,7 @@ const OTPVerification = () => {
 
   // Submit OTP
   const handleSubmitOtp = () => {
-    // console.log("Submitting OTP:", otp.join(""));
+    console.log("Submitting OTP: >>>>", otp.join(""));
     if (otp.join("") === "1234") {
       // Assuming '1234' is the correct OTP
       setOtpVerified(true); // OTP verified successfully
@@ -91,7 +95,7 @@ const OTPVerification = () => {
                 },
               }}
             >
-              Send OTP
+              Send OTP E
             </Button>
           ) : !otpVerified ? (
             <Box

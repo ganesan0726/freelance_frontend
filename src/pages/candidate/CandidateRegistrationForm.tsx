@@ -21,11 +21,13 @@ import { districts_list } from "../../data/district-list";
 import { colleges_list } from "../../data/college-list";
 import FileUpload from "../../UIComponents/components/ui/FileUpload";
 import NextArrow from "../../assets/NextArrow.png";
+// import { SentEmailOtpApi } from "../../service/otpApi";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
+  const [email, setEmail] = useState("");
 
   // Validation schema using Yup
   const validationSchema = Yup.object({
@@ -42,24 +44,6 @@ const CandidateRegistrationForm = () => {
     district: Yup.string().required("district is required"),
     institutionType: Yup.string().required("institutionType is required"),
     institutionName: Yup.string().required("institutionName is required"),
-    // resume: Yup.mixed()
-    //   .required("Resume is required")
-    //   .test(
-    //     "fileType",
-    //     "Only .docx and .pdf files are allowed",
-    //     (value) =>
-    //       !value || // Allow no file for optional fields
-    //       (value &&
-    //         [
-    //           "application/pdf",
-    //           "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-    //         ].includes((value as File).type)),
-    //   )
-    //   .test(
-    //     "fileSize",
-    //     "File size must be less than 5MB",
-    //     (value) => !value || (value && (value as File).size <= 5 * 1024 * 1024), // 5MB
-    //   ),
   });
 
   // Initial values for the form
@@ -113,10 +97,19 @@ const CandidateRegistrationForm = () => {
 
   const handleSubmit = (
     values: FormValues,
-    { resetForm }: { resetForm: () => void },
+    { resetForm }: { resetForm: () => void }
   ) => {
     console.log("Form submitted with values:", values);
     resetForm();
+  };
+
+  const handleEmailOtpSent = async () => {
+    // let res = await SentEmailOtpApi(email);
+    console.log("handleSendOtp to email >>>", email);
+  };
+
+  const handleSubmitEmailOtp = (otp: any) => {
+    console.log("handle Submi tEmailOtp to  >>>", otp);
   };
 
   return (
@@ -228,7 +221,10 @@ const CandidateRegistrationForm = () => {
                       label="Enter Email ID"
                       name="email"
                       value={values.email}
-                      onChange={handleChange}
+                      onChange={(e) => {
+                        handleChange(e);
+                        setEmail(e.target.value);
+                      }}
                       onBlur={handleBlur}
                       error={touched.email && Boolean(errors.email)}
                       helperText={touched.email ? errors.email : ""}
@@ -238,7 +234,7 @@ const CandidateRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <OTPVerification />
+                    <OTPVerification snetOtp={handleEmailOtpSent} />
                   </Grid>
                   <Grid item xs={6}>
                     <Typography
@@ -413,8 +409,7 @@ const CandidateRegistrationForm = () => {
                                 value: values.state,
                                 label:
                                   stateList.find(
-                                    (state) =>
-                                      state.state_name === values.state,
+                                    (state) => state.state_name === values.state
                                   )?.state_name || "",
                               }
                             : null
@@ -454,8 +449,7 @@ const CandidateRegistrationForm = () => {
                                 label:
                                   districts_list.find(
                                     (district) =>
-                                      district.district_name ===
-                                      values.district,
+                                      district.district_name === values.district
                                   )?.district_name || "",
                               }
                             : null
@@ -523,7 +517,7 @@ const CandidateRegistrationForm = () => {
                                 label:
                                   colleges_list.find(
                                     (college) =>
-                                      college.name1 === values.institutionName,
+                                      college.name1 === values.institutionName
                                   )?.name1 || "",
                               }
                             : null
