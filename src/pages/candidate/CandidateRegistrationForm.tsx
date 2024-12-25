@@ -20,6 +20,7 @@ import { courseOptions, genderOptions, initialValues, validationSchema } from ".
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
+  // const [passwordVisible, setPasswordVisible] = useState(false);
   const [otp, setOtp] = useState<string>(""); // Entered OTP
   const [sentOtp, setSentOtp] = useState<string | null>(null); // Sent OTP
   const [isVerified, setIsVerified] = useState<boolean>(false); // Verification status

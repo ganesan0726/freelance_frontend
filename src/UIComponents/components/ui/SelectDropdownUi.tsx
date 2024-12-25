@@ -80,12 +80,16 @@ export default function SelectDropdownUi({
           width: width, // Apply reduced width size
           "& .MuiOutlinedInput-root": {
             height: size === "medium" ? "45px" : "38px",
-            fontSize: size === "medium" ? "15px" : "14px",
+            fontSize: size === "medium" ? "12px" : "10px",
             padding: size === "medium" ? "10px" : "8px",
             borderRadius: "15px", // Add border radius
           },
           "& .MuiAutocomplete-input": {
             padding: size === "medium" ? "10px" : "8px",
+          },
+          "& .MuiFormLabel-root": {
+            lineHeight: "15px",
+            fontSize: size === "medium" ? "12px" : "12px", // Larger font size for medium
           },
         }}
         renderInput={(params) => (
@@ -117,7 +121,11 @@ export default function SelectDropdownUi({
             {children}
           </Paper>
         )}
-        renderOption={(props, option) => <li {...props}>{option.label}</li>}
+        renderOption={(props, option) => (
+          <li {...props} key={option.value}>
+            {option.label}
+          </li>
+        )}
       />
       {helperText && (
         <FormHelperText id="component-helper-text">{helperText}</FormHelperText>
