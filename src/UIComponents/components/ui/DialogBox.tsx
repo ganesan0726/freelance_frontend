@@ -37,8 +37,6 @@ const DialogBoxUi = ({
   open: defaultOpen = false,
   paperWidth,
   paperMaxWidth, // Default Material-UI maxWidth prop
-  minWidth,              // Apply minWidth dynamically
-  title,
   content,
   actions,
   handleClose,

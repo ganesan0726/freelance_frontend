@@ -19,7 +19,7 @@ interface ButtonProps {
   hasBackground?: boolean;
 }
 
-const ButtonSmallUi: React.FC<ButtonProps> = ({ disabled, color, type, label, onClick, size, hasBackground, variant }) => {
+const ButtonSmallUi: React.FC<ButtonProps> = ({ disabled, color, type, label, onClick, size,  variant }) => {
   return (
     <>
       <Button

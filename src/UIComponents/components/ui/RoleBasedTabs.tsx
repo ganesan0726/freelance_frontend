@@ -21,6 +21,8 @@ const RoleBasedTabs: React.FC<RoleBasedTabsProps> = ({ tabs, userRole }) => {
   const [currentTabIndex, setCurrentTabIndex] = React.useState<number>(0);
 
   const handleTabChange = (e: React.ChangeEvent<{}>, tabIndex: number) => {
+    console.log(e);
+
     setCurrentTabIndex(tabIndex);
   };
 

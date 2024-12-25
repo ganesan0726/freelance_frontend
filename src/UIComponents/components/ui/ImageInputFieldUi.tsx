@@ -2,8 +2,6 @@ import React, { useState } from 'react';
 import { MuiFileInput } from 'mui-file-input';
 import { FormHelperText, FormControl, InputLabel, IconButton } from '@mui/material';
 import ImageIcon from '@mui/icons-material/Image';
-import { storage } from '../../../service/firebase/firebase-storage';
-import { ref, uploadBytes, getDownloadURL, deleteObject } from 'firebase/storage';
 import { ClearOutlined } from '@mui/icons-material';
 import LoaderUi from './LoaderUi';
 
@@ -30,8 +28,6 @@ const ImageInputFieldUi: React.FC<ImageInputFieldUiProps> = ({
   helperText,
   onChange,
   onUploadComplete,
-  maxFileSize = 5 * 1024 * 1024, // Default to 5MB
-  allowedTypes = ['image/png', 'image/jpeg', 'image/gif'], // Default allowed types
   multiple = true, // This must be true because of the MuiFileInput requirement
 }) => {
   const [value, setValue] = useState<File[]>([]);
@@ -53,21 +49,9 @@ const ImageInputFieldUi: React.FC<ImageInputFieldUiProps> = ({
   };
 
   const uploadImages = async (files: File[]) => {
+    console.log(files);
     const urls: string[] = [];
-    for (const file of files) {
-      const timestamp = new Date().getTime(); // Use timestamp for unique naming
-      const storageRef = ref(storage, `images/${timestamp}-${file.name}`);
-
-      try {
-        await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(storageRef);
-        urls.push(url);
-        setUploadedUrls((prev) => [...prev, url]);
-        console.log(`Uploaded: ${url}`);
-      } catch (error) {
-        console.error('Upload failed:', error);
-      }
-    }
+    
     if (onUploadComplete) {
       onUploadComplete(urls);
     }
@@ -78,9 +62,7 @@ const ImageInputFieldUi: React.FC<ImageInputFieldUiProps> = ({
     setLoading(true); // Start loading for clearing
     for (const url of uploadedUrls) {
       const fileName = decodeURIComponent(url.split('/images').pop()?.split('?')[0] || '');
-      const storageRef = ref(storage, `images/${fileName}`);
       try {
-        await deleteObject(storageRef);
         console.log(`Deleted ${fileName} from Firebase Storage.`);
       } catch (error) {
         console.error('Delete failed:', error);

@@ -22,7 +22,6 @@ const TimePickerUi: React.FC<TimePickerUiProps> = ({
   value: propValue,
   label = 'Select Time',
   minutesStep = 5,
-  shouldDisableTime,
   initialValue = null,
   validationMessage = 'Selected time is invalid.',
   onTimeChange,

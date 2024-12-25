@@ -30,6 +30,8 @@ const GridTable: React.FC<GridTableProps> = ({ showToolbar, hideFooter, loading,
       <div style={{ height: 500, width: '100%' }}>
         <DataGrid
           onCellKeyDown={(params, events) => {
+            console.log(params);
+            
             if (events.key === ' ') {
               events.stopPropagation();
             } else {
@@ -84,10 +86,10 @@ const GridTable: React.FC<GridTableProps> = ({ showToolbar, hideFooter, loading,
             '& .MuiDataGrid-scrollbar': {
               display: 'none',
             },
-            '& .css-h9culo-MuiDataGrid-toolbarContainer': {
-              padding: '10px 5px 10px 5px',
-              backgroundColor: theme.palette.background.level1,
-            },
+            // '& .css-h9culo-MuiDataGrid-toolbarContainer': {
+            //   padding: '10px 5px 10px 5px',
+            //   backgroundColor: theme.palette.background.level1,
+            // },
             '& .css-1yvl2ce-MuiInputBase-input-MuiInput-input': {
               fontSize: '14px',
             },

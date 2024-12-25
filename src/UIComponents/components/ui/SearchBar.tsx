@@ -31,6 +31,8 @@ export default function SearchBarUi() {
       size="small"
       value={value}
       onChange={(event, newValue) => {
+        console.log(event);
+
         if (typeof newValue === 'string') {
           setValue({
             title: newValue,

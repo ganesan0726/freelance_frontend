@@ -4,14 +4,12 @@ import {
   Container,
   Card,
   CardContent,
-  IconButton,
 } from "@mui/material";
 import { Formik, Form } from "formik";
 import TextFieldUi from "../../UIComponents/components/ui/TextField"; // Assuming TextFieldUi is a custom component
 import PhoneNumberField from "../../UIComponents/components/ui/PhoneNumberField";
 import RadioUi from "../../UIComponents/components/ui/RadioGroup";
 import { useState } from "react";
-import { VisibilityOff, VisibilityOutlined } from "@mui/icons-material";
 import SelectDropdownUi from "../../UIComponents/components/ui/SelectDropdownUi";
 import { stateList } from "../../data/state-list";
 import { districts_list } from "../../data/district-list";
@@ -22,7 +20,6 @@ import { courseOptions, genderOptions, initialValues, validationSchema } from ".
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [otp, setOtp] = useState<string>(""); // Entered OTP
   const [sentOtp, setSentOtp] = useState<string | null>(null); // Sent OTP
   const [isVerified, setIsVerified] = useState<boolean>(false); // Verification status
@@ -73,7 +70,6 @@ const CandidateRegistrationForm = () => {
               values,
               handleChange,
               handleBlur,
-              isSubmitting,
             }) => (
               <Form noValidate>
                 <Grid

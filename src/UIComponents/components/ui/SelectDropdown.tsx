@@ -37,7 +37,6 @@ export default function SelectDropdown({
   value,
   labelText,
   required,
-  variant,
   onChange,
 }: SelectDropdownProps) {
   return (
@@ -50,6 +49,8 @@ export default function SelectDropdown({
       options={options}
       value={value || null}
       onChange={(event, newValue) => {
+        console.log(event);
+        
         onChange(newValue);
       }}
       sx={{

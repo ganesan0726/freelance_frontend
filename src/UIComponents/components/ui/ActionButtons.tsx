@@ -15,7 +15,7 @@ interface ActionButtonsProps {
   onViewClick?: () => void;
 }
 
-const ActionButtons: React.FC<ActionButtonsProps> = ({ canEdit, canView, id, canDelete, onEditClick, onDeleteClick, onViewClick }) => {
+const ActionButtons: React.FC<ActionButtonsProps> = ({ canEdit, canView, canDelete, onEditClick, onDeleteClick, onViewClick }) => {
   return (
     <Stack direction="row" spacing={1}>
       <StyledIconButton disabled={!canEdit} aria-label="edit" onClick={onEditClick}>

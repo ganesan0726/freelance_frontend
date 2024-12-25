@@ -23,7 +23,6 @@ export default function DatePickerUi({
   label,
   value,
   disabled,
-  required,
   onChange,
   helperText,
   error,

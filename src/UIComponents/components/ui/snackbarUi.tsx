@@ -1,11 +1,10 @@
 // SnackBarUi.tsx
 import React from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
 import { Slide } from '@mui/material';
-import { RootState } from 'redux-store/store';
-import { hideSnackbar } from 'redux-store/global/snackBarSlice';
+import { RootState } from '../../../redux-store/store';
 
 const SlideTransition = (props: any) => {
   return <Slide {...props} direction="left" />;
@@ -13,13 +12,14 @@ const SlideTransition = (props: any) => {
 
 const SnackBarUi: React.FC = () => {
   const { isOpen, message, severity } = useSelector((state: RootState) => state.snackbar);
-  const dispatch = useDispatch();
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
     if (reason === 'clickaway') {
       return;
     }
-    dispatch(hideSnackbar());
+    console.log(event);
+    
+    // dispatch(hideSnackbar());
   };
 
   return (

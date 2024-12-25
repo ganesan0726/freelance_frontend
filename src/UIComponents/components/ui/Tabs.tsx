@@ -19,6 +19,7 @@ const TabUi: React.FC<ColorTabsProps> = ({ tabs = [], defaultValue = tabs[0]?.va
   const [value, setValue] = React.useState(defaultValue);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    console.log(event);
     setValue(newValue);
     onChange(newValue);
   };

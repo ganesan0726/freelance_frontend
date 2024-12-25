@@ -21,6 +21,7 @@ export default function AccordionUi({ items }: ReusableAccordionProps) {
 
   const handleChange =
     (panel: string) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      console.log(event);
       setExpanded(isExpanded ? panel : false);
     };
 

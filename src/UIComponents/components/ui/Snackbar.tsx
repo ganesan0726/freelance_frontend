@@ -21,6 +21,8 @@ const SnackBarUi: React.FC<SnackBarUiProps> = ({ message, severity, autoHideDura
   }, [isSubmitting]);
 
   const handleClose = (event?: React.SyntheticEvent | Event, reason?: string) => {
+    console.log(event);
+    
     if (reason === 'clickaway') {
       return;
     }

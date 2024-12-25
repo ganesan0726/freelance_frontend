@@ -48,7 +48,6 @@ export default function SelectDropdownUi({
   onChange,
   disabled,
   loading = false,
-  defaultValue,
   topLabel,
 }: SelectDropdownProps) {
   return (
@@ -71,6 +70,8 @@ export default function SelectDropdownUi({
         loading={loading}
         value={value || null}
         onChange={(event, newValue) => {
+          console.log(event);
+          
           onChange(newValue);
         }}
         isOptionEqualToValue={(option, value) => option.value === value.value}
