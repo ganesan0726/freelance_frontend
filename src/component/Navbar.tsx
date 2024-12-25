@@ -50,7 +50,7 @@ const ButtonAppBar = () => {
           >
             <StyledNavLink to="/corporate">Corporate</StyledNavLink>
             <StyledNavLink to="/college">College</StyledNavLink>
-            <StyledNavLink to="/candidate">Candidate</StyledNavLink>
+            <StyledNavLink to="/candidate/register">Candidate</StyledNavLink>
             <StyledNavLink to="/speaker">Speaker</StyledNavLink>
           </Box>
 

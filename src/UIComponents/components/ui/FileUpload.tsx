@@ -3,7 +3,6 @@ import {
   Button,
   Typography,
   Box,
-  IconButton,
   Chip,
 } from "@mui/material";
 import { CloudUpload, Close } from "@mui/icons-material";
