@@ -22,12 +22,9 @@ import { colleges_list } from "../../data/college-list";
 import FileUpload from "../../UIComponents/components/ui/FileUpload";
 import NextArrow from "../../assets/NextArrow.png";
 import { SentEmailOtpApi, VerifyEmailOtpApi } from "../../service/otpApi";
-import { useNavigate } from "react-router-dom";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
-  const Navigate = useNavigate();
-
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [uploadedFiles, setUploadedFiles] = useState<File[]>([]);
   const [email, setEmail] = useState("");
@@ -104,7 +101,6 @@ const CandidateRegistrationForm = () => {
   ) => {
     console.log("Form submitted with values:", values);
     resetForm();
-    Navigate("/candidate/second_step_register");
   };
 
   const handleEmailOtpSent = async () => {
@@ -112,21 +108,14 @@ const CandidateRegistrationForm = () => {
     console.log("handleSendOtp to email >>>", email);
   };
 
-  const handleSubmitEmailOtp = async (email: string, otp: any) => {
+  const handleSubmitEmailOtp = async (email:string, otp: any) => {
     let res = await VerifyEmailOtpApi(email, otp);
     console.log("handle Submi EmailOtp to  >>>", otp + " " + email + " " + res);
   };
 
   return (
     <Container maxWidth="lg">
-      <Card
-        sx={{
-          backgroundColor: "f0f0f0",
-          padding: 3,
-          margin: 2,
-          borderRadius: "30px",
-        }}
-      >
+      <Card sx={{ backgroundColor: "f0f0f0", padding: 3, margin: 2 }}>
         <CardContent>
           <Formik
             initialValues={initialValues}
@@ -246,10 +235,7 @@ const CandidateRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <OTPVerification
-                      sentOtp={handleEmailOtpSent}
-                      verifyOtp={handleSubmitEmailOtp}
-                    />
+                    <OTPVerification sentOtp={handleEmailOtpSent} verifyOtp={handleSubmitEmailOtp} />
                   </Grid>
                   <Grid item xs={6}>
                     <Typography
