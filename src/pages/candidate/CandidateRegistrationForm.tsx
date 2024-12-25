@@ -21,7 +21,7 @@ import { districts_list } from "../../data/district-list";
 import { colleges_list } from "../../data/college-list";
 import FileUpload from "../../UIComponents/components/ui/FileUpload";
 import NextArrow from "../../assets/NextArrow.png";
-// import { SentEmailOtpApi } from "../../service/otpApi";
+import { SentEmailOtpApi, VerifyEmailOtpApi } from "../../service/otpApi";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
@@ -97,19 +97,20 @@ const CandidateRegistrationForm = () => {
 
   const handleSubmit = (
     values: FormValues,
-    { resetForm }: { resetForm: () => void }
+    { resetForm }: { resetForm: () => void },
   ) => {
     console.log("Form submitted with values:", values);
     resetForm();
   };
 
   const handleEmailOtpSent = async () => {
-    // let res = await SentEmailOtpApi(email);
+    let res = await SentEmailOtpApi(email);
     console.log("handleSendOtp to email >>>", email);
   };
 
-  const handleSubmitEmailOtp = (otp: any) => {
-    console.log("handle Submi tEmailOtp to  >>>", otp);
+  const handleSubmitEmailOtp = async (email:string, otp: any) => {
+    let res = await VerifyEmailOtpApi(email, otp);
+    console.log("handle Submi EmailOtp to  >>>", otp + " " + email + " " + res);
   };
 
   return (
@@ -234,7 +235,7 @@ const CandidateRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={6}>
-                    <OTPVerification snetOtp={handleEmailOtpSent} />
+                    <OTPVerification sentOtp={handleEmailOtpSent} verifyOtp={handleSubmitEmailOtp} />
                   </Grid>
                   <Grid item xs={6}>
                     <Typography
@@ -409,7 +410,8 @@ const CandidateRegistrationForm = () => {
                                 value: values.state,
                                 label:
                                   stateList.find(
-                                    (state) => state.state_name === values.state
+                                    (state) =>
+                                      state.state_name === values.state,
                                   )?.state_name || "",
                               }
                             : null
@@ -449,7 +451,8 @@ const CandidateRegistrationForm = () => {
                                 label:
                                   districts_list.find(
                                     (district) =>
-                                      district.district_name === values.district
+                                      district.district_name ===
+                                      values.district,
                                   )?.district_name || "",
                               }
                             : null
@@ -517,7 +520,7 @@ const CandidateRegistrationForm = () => {
                                 label:
                                   colleges_list.find(
                                     (college) =>
-                                      college.name1 === values.institutionName
+                                      college.name1 === values.institutionName,
                                   )?.name1 || "",
                               }
                             : null

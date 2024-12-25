@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Grid, TextField, Button, Typography, Box } from "@mui/material";
 
-const OTPVerification: React.FC<any> = ({ snetOtp }) => {
-
+const OTPVerification: React.FC<any> = ({ sentOtp,verifyOtp }) => {
   const [otp, setOtp] = useState(["", "", "", ""]);
   const [timer, setTimer] = useState(10); // 10 seconds timer
   const [otpSent, setOtpSent] = useState(false);
@@ -11,7 +10,7 @@ const OTPVerification: React.FC<any> = ({ snetOtp }) => {
   // Handle OTP change in the text fields
   const handleOtpChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    index: number
+    index: number,
   ) => {
     const value = e.target.value;
 
@@ -39,6 +38,7 @@ const OTPVerification: React.FC<any> = ({ snetOtp }) => {
 
   // Handle Resend OTP
   const handleResendOtp = () => {
+    sentOtp();
     setOtp(["", "", "", ""]);
     setTimer(10);
     setOtpSent(true);
@@ -47,7 +47,7 @@ const OTPVerification: React.FC<any> = ({ snetOtp }) => {
   // Send OTP button click handler
   const handleSendOtp = () => {
     console.log("handleSendOtp >>>>> >> ", otp);
-    snetOtp()
+    sentOtp();
     setOtpSent(true);
     setTimer(10);
     setOtpVerified(false); // Reset OTP verification state
@@ -57,7 +57,7 @@ const OTPVerification: React.FC<any> = ({ snetOtp }) => {
   const handleSubmitOtp = () => {
     console.log("Submitting OTP: >>>>", otp.join(""));
     if (otp.join("") === "1234") {
-      // Assuming '1234' is the correct OTP
+      verifyOtp();
       setOtpVerified(true); // OTP verified successfully
       setOtpSent(true); // Disable further "Resend OTP"
     } else {
