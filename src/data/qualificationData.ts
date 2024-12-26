@@ -5,7 +5,7 @@ export interface Qualification {
     graduationStatus: string;
     course: number | null;
     major: number | null;
-    passedOut: number | null;
+    passedout_year: number | null;
     specialisation: number | null;
     highest_quailfication: number | null;
     cgpa: number | null;
@@ -18,7 +18,7 @@ export const initialValues: Qualification = {
     graduationStatus: "",
     course: null,
     major: null,
-    passedOut: null,
+    passedout_year: null,
     specialisation: null,
     highest_quailfication: null,
     cgpa: null,
@@ -30,7 +30,7 @@ export const qualificationSchema = Yup.object({
     qualification: Yup.string().required("Qualification is required"),
     graduationStatus: Yup.string().required("Graduation status is required"),
     course: Yup.string().required("Course is required"),
-    passedOut: Yup.string().required("PassedOut is required"),
+    passedout_year: Yup.string().required("passedout_year is required"),
     specialisation: Yup.string(),
     highest_quailfication: Yup.string().required(
         "Highest Qualification is required",
