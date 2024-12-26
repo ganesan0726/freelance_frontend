@@ -23,6 +23,7 @@ interface RadioFormProps {
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   topLabel? : string;
 }
+
 export default function RadioUi({
   errorMsg,
   onChange,
@@ -53,10 +54,10 @@ export default function RadioUi({
             sx={{
               padding: "0",
               margin: "0 8px",
-              borderRadius: "20px", // Add border radius to FormControlLabel
-              border: "1px solid #000", // Add border to FormControlLabel
+              borderRadius: "20px",
+              border: "1px solid #000",
               "& .MuiRadio-root": {
-                borderRadius: "50%", // Ensure the radio itself has a circular border
+                borderRadius: "50%",
               },
               "& .MuiTypography-root": {
                 fontSize: "12px",
@@ -73,20 +74,28 @@ export default function RadioUi({
           row
           value={value}
           onChange={onChange}
-          sx={{ gap: "10px" }}
+          sx={{ gap: "16px" }}
           aria-labelledby="demo-row-radio-buttons-group-label"
           name={groupName}
         >
           {options?.map((option, index) => (
             <FormControlLabel
               sx={{
-                width: "107px",
-                height: "40px",
+                width: "auto",
+                height: "42px",
+                minWidth: "107px",
+                maxWidth: "150px",
                 margin: "0 5px",
-                borderRadius: "20px", // Add border radius to FormControlLabel
-                border: "1px solid #000", // Add border to FormControlLabel
+                borderRadius: "20px",
+                border: "1px solid #000",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                wordWrap: "break-word",
+                whiteSpace: "normal",
+                padding: "5px",
                 "& .MuiRadio-root": {
-                  borderRadius: "50%", // Ensure the radio itself has a circular border
+                  borderRadius: "50%",
                 },
                 "& .MuiTypography-root": {
                   fontSize: "13px",
