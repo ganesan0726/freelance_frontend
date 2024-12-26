@@ -1,10 +1,4 @@
-import {
-  Grid,
-  Typography,
-  Container,
-  Card,
-  CardContent,
-} from "@mui/material";
+import { Grid, Typography, Container, Card, CardContent } from "@mui/material";
 import { Formik, Form } from "formik";
 import TextFieldUi from "../../UIComponents/components/ui/TextField"; // Assuming TextFieldUi is a custom component
 import PhoneNumberField from "../../UIComponents/components/ui/PhoneNumberField";
@@ -16,7 +10,12 @@ import { districts_list } from "../../data/district-list";
 import { Box } from "@mui/system";
 import OtpInput from "../../component/common/OtpVerification";
 import ButtonUi from "../../UIComponents/components/ui/Button";
-import { courseOptions, genderOptions, initialValues, validationSchema } from "../../data/candidateData";
+import {
+  courseOptions,
+  genderOptions,
+  initialValues,
+  validationSchema,
+} from "../../data/candidateData";
 
 // Handle OTP input change
 const CandidateRegistrationForm = () => {
@@ -51,7 +50,6 @@ const CandidateRegistrationForm = () => {
 
   // Validation schema using Yup
 
-
   return (
     <Container maxWidth="md">
       <Card sx={{ backgroundColor: "f0f0f0", padding: 3, marginTop: "20px" }}>
@@ -81,10 +79,20 @@ const CandidateRegistrationForm = () => {
                   alignItems="center"
                 >
                   <Grid item xs={12}>
-                    <Typography variant="h2" sx={{ textAlign: "center", fontWeight: "bold", fontSize: "20px", marginBottom: "40px" }} > CANDIDATE REGISTRATION </Typography>
+                    <Typography
+                      variant="h2"
+                      sx={{
+                        textAlign: "center",
+                        fontWeight: "bold",
+                        fontSize: "20px",
+                        marginBottom: "40px",
+                      }}
+                    >
+                      {" "}
+                      CANDIDATE REGISTRATION{" "}
+                    </Typography>
                   </Grid>
                   <Grid item xs={6}>
-
                     <TextFieldUi
                       topLabel="First Name"
                       placeholder="Enter First Name"
@@ -130,7 +138,15 @@ const CandidateRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={6} sx={{ textAlign: "right" }}>
-                    <Box mt={5} sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
+                    <Box
+                      mt={5}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 2,
+                      }}
+                    >
                       {isVerified ? (
                         // Show "Verified" message
                         <Typography variant="h6" color="success.main">
@@ -176,7 +192,15 @@ const CandidateRegistrationForm = () => {
                     />
                   </Grid>
                   <Grid item xs={6} sx={{ textAlign: "right" }}>
-                    <Box mt={5} sx={{ display: "flex", flexDirection: "row", alignItems: "center", gap: 2 }}>
+                    <Box
+                      mt={5}
+                      sx={{
+                        display: "flex",
+                        flexDirection: "row",
+                        alignItems: "center",
+                        gap: 2,
+                      }}
+                    >
                       {isVerified ? (
                         // Show "Verified" message
                         <Typography variant="h6" color="success.main">
@@ -218,7 +242,7 @@ const CandidateRegistrationForm = () => {
                       errorMsg={touched.gender && errors.gender}
                     />
                   </Grid>
-                  <Grid mt={2} item xs={6}>
+                  <Grid mt={2} item xs={6} spacing={2}>
                     <TextFieldUi
                       topLabel="Personal Email ID"
                       type="password"
@@ -289,13 +313,13 @@ const CandidateRegistrationForm = () => {
                         value={
                           values.state
                             ? {
-                              value: values.state,
-                              label:
-                                stateList.find(
-                                  (state) =>
-                                    state.state_name === values.state,
-                                )?.state_name || "",
-                            }
+                                value: values.state,
+                                label:
+                                  stateList.find(
+                                    (state) =>
+                                      state.state_name === values.state,
+                                  )?.state_name || "",
+                              }
                             : null
                         }
                         variant="outlined"
@@ -318,14 +342,14 @@ const CandidateRegistrationForm = () => {
                         value={
                           values.district
                             ? {
-                              value: values.district,
-                              label:
-                                districts_list.find(
-                                  (district) =>
-                                    district.district_name ===
-                                    values.district,
-                                )?.district_name || "",
-                            }
+                                value: values.district,
+                                label:
+                                  districts_list.find(
+                                    (district) =>
+                                      district.district_name ===
+                                      values.district,
+                                  )?.district_name || "",
+                              }
                             : null
                         }
                         variant="outlined"
@@ -333,13 +357,15 @@ const CandidateRegistrationForm = () => {
                       />
                     </Grid>
                     <Grid mt={2} item xs={6}>
-                    <RadioUi
-                      topLabel="Choose Institute Type"
-                      options={genderOptions}
-                      value={values.gender}
-                      onChange={(e) => setFieldValue("gender", e.target.value)}
-                      errorMsg={touched.gender && errors.gender}
-                    />
+                      <RadioUi
+                        topLabel="Choose Institute Type"
+                        options={genderOptions}
+                        value={values.gender}
+                        onChange={(e) =>
+                          setFieldValue("gender", e.target.value)
+                        }
+                        errorMsg={touched.gender && errors.gender}
+                      />
                     </Grid>
                     <Grid mt={2} item xs={6}>
                       <SelectDropdownUi
@@ -357,14 +383,14 @@ const CandidateRegistrationForm = () => {
                         value={
                           values.district
                             ? {
-                              value: values.district,
-                              label:
-                                districts_list.find(
-                                  (district) =>
-                                    district.district_name ===
-                                    values.district,
-                                )?.district_name || "",
-                            }
+                                value: values.district,
+                                label:
+                                  districts_list.find(
+                                    (district) =>
+                                      district.district_name ===
+                                      values.district,
+                                  )?.district_name || "",
+                              }
                             : null
                         }
                         variant="outlined"

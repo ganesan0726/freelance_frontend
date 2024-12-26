@@ -7,7 +7,7 @@ import FormLabel from "@mui/material/FormLabel";
 import { Typography } from "@mui/material";
 
 interface RadioOptions {
-  value: string;
+  value: string | number | null; 
   label: string;
 }
 
@@ -21,7 +21,7 @@ interface RadioFormProps {
   disabled?: boolean;
   required?: boolean;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  topLabel? : string;
+  topLabel?: string;
 }
 
 export default function RadioUi({
@@ -33,22 +33,22 @@ export default function RadioUi({
   label,
   required,
   disabled,
-  topLabel
+  topLabel,
 }: RadioFormProps) {
   return (
     <>
       <FormControl>
-         <Typography
-                variant="h6"
-                sx={{
-                  marginBottom: 1,
-                  fontSize: "13px",
-                  marginLeft: "12px",
-                  fontWeight: "bold",
-                }}
-              >
-                {topLabel}
-              </Typography>
+        <Typography
+          variant="h6"
+          sx={{
+            marginBottom: 1,
+            fontSize: "13px",
+            marginLeft: "12px",
+            fontWeight: "bold",
+          }}
+        >
+          {topLabel}
+        </Typography>
         {label ? (
           <FormLabel
             sx={{
@@ -74,7 +74,7 @@ export default function RadioUi({
           row
           value={value}
           onChange={onChange}
-          sx={{ gap: "16px" }}
+          sx={{ gap: "8px" }}
           aria-labelledby="demo-row-radio-buttons-group-label"
           name={groupName}
         >

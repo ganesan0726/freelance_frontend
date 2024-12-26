@@ -69,9 +69,8 @@ export default function SelectDropdownUi({
         options={options}
         loading={loading}
         value={value || null}
-        onChange={(event, newValue) => {
+        onChange={(event: React.SyntheticEvent, newValue: any) => {
           console.log(event);
-          
           onChange(newValue);
         }}
         isOptionEqualToValue={(option, value) => option.value === value.value}
